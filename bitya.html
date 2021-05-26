@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Exam1</title>
+</head>
+
+<body>
+
+    <h1>Todo List</h1>
+
+    <h3>Choose an option</h3>
+
+    <button type="button" class="btn btn-success" onclick="addTodo()">Add</button>
+    <button type="button" class="btn btn-danger" onclick="removeTodo()">Remove</button>
+    <button type="button" class="btn btn-warning" onclick="searchTodo()">Search by title</button>
+    <button type="button" class="btn btn-info" onclick="showAllTodos()">Show all todos</button>
+
+    <br><br>
+
+    <div id="display"></div>
+
+    <div id="message" style='color:red'></div>
+
+    <span><strong id="span"></strong></span>
+
+    <div id="showTodos"></div>
+
+    <div id="search1"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        var indexTodo = 1;
+
+        var toDoArray = [];
+
+        function addTodo() {
+            display.innerHTML = `<tr>
+                                <td>ID:</td>
+                                <td>${indexTodo++}</td>
+                                </tr>
+                                <tr>
+                                <td>Priority:</td>
+                                <td><select id="selectTodo">
+                                    <option value="">--Please choose an option--</option>
+                                    <option value="low">Low</option>
+                                    <option value="med">Medium</option>
+                                    <option value="high">High</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                <td>Title:</td>
+                                <td><input id="titleTodo"></td>
+                                </tr>
+                                <tr>
+                                <td><button type="button" class="btn btn-primary" onclick="saveTodo()">Save Todo</button></td>
+                                </tr>
+                                `
+        }
+
+      function saveTodo() {
+        // console.log(toDoArray);
+        var newTodo = {
+            id: indexTodo-1,
+            priority: selectTodo.value,
+            title: titleTodo.value 
+        }
+        //console.log(newTodo);
+        toDoArray.push(newTodo);
+        console.log(JSON.stringify(toDoArray));
+        message.innerHTML = "To add a new todo please click on the button add";
+      }
+ 
+      function removeTodo(){
+        display.innerHTML = `Please enter the id of the todo to delete <input id="IDTodoDelete">
+                            <button type="button" class="btn btn-danger" onclick="remove()">Remove</button>
+                            `
+
+        message.innerHTML = "";
+      }
+
+      var positionTodo = document.getElementById('IDTodoDelete');
+
+      function remove () {
+        toDoArray.splice(positionTodo,1);
+        console.log(toDoArray);
+
+        span.innerHTML = "The selected todo has been deleted";
+      }
+      
+      function showAllTodos() {
+        message.innerHTML = "";
+          if (toDoArray.length == 0) {
+            span.innerHTML = "Please enter todos to be able to display them";
+          }
+          else {
+            console.log(JSON.stringify(toDoArray));
+            for (let i = 0; i < toDoArray.length; i++) {
+                showTodos.innerHTML += `<br> ID: ${toDoArray[i].id} Priority: ${toDoArray[i].priority} Description's todo: ${toDoArray[i].title}`
+            }
+          }
+      }
+
+      function searchTodo() {
+        message.innerHTML = "";
+        showTodos.innerHTML = "";
+        display.innerHTML = "";
+          // לא היה זמן לסיים
+          search1.innerHTML = `Enter the title of the todo <input id="searchTitle">
+                            <button type="button" class="btn btn-warning" onclick="search()">Search</button>
+                              `
+      }
+
+      function search() {
+
+        var desc = searchTitle.value;
+        for (let i = 1; i < toDoArray.length; i++) {
+            if (desc === toDoArray[i].priority) {
+                console.log(`description of todo: ${desc}`);
+            }
+          }
+      }
+    </script>
+
+</body>
+
+</html>
